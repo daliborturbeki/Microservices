@@ -12,9 +12,20 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-builder.Services.AddDbContext<AppDbContext>(options => 
-    options.UseInMemoryDatabase("InMemory")
-);
+if(builder.Environment.IsProduction())
+{
+    Console.WriteLine("--> Using SQL Server DB");
+    builder.Services.AddDbContext<AppDbContext>(options => 
+        options.UseSqlServer(builder.Configuration.GetConnectionString("PlatformsConn"))
+    );
+}
+else
+{
+    Console.WriteLine("--> Using InMem DB");
+    builder.Services.AddDbContext<AppDbContext>(options => 
+        options.UseInMemoryDatabase("InMemory")
+    );
+}
 
 builder.Services.AddScoped<IPlatformRepository, PlatformRepository>();
 
@@ -24,7 +35,7 @@ Console.WriteLine($"--> Command Service Endpoint: {builder.Configuration["Comman
 
 var app = builder.Build();
 
-PrepareDb.PreparePopulation(app);
+PrepareDb.PreparePopulation(app, builder.Environment.IsProduction());
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
