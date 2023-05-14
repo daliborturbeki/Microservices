@@ -8,11 +8,11 @@ namespace CommandsService.Models
         [Required]
         public int ID { get; set; }
         [Required]
-        public string HowTo { get; set; }
+        public string? HowTo { get; set; }
         [Required]
-        public string CommandLine { get; set; }
+        public string? CommandLine { get; set; }
         [Required]
         public int PlatformID { get; set; }
-        public Platform Platform { get; set; }
+        public Platform? Platform { get; set; }
     }
 }
