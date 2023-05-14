@@ -8,8 +8,9 @@ namespace PlatformService.Profiles
     {
         public PlatformProfile()
         {
-            CreateMap<Platform, PlatformReadDto>();
-            CreateMap<PlatformCreateDto, Platform>();
+            CreateMap<Platform, PlatformReadDTO>();
+            CreateMap<PlatformCreateDTO, Platform>();
+            CreateMap<PlatformReadDTO, PlatformPublishDTO>();
         }
     }
 }
